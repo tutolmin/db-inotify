@@ -17,9 +17,9 @@ nohup inotifywait -q -m -e close_write --format '%e %f %w' $INCOMINGDIR | \
 while read event file dir
 do 
   # Log the event into system log
-  logger -t move_incoming "Moving $dir/$file -> $DBQUEUEDIR/$file"
+  logger -t move_incoming "Moving $dir$file -> $DBQUEUEDIR/$file"
 
   # Move the file into respective dbqueue directory
-  mv $dir/$file $DBQUEUEDIR
+  mv $dir$file $DBQUEUEDIR
 done
 ) &

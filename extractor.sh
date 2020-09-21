@@ -24,7 +24,7 @@ fi
 while : ; do
 
   # Find the next file in PGN dbqueue dir
-  FILE=`find $DBQUEUEDIR/ -type f -name *.gz -print0 -quit`
+  FILE=`find $DBQUEUEDIR -type f -name \*.gz -print0 -quit`
 
   # Exit the loop if no more files found
   if [[ ! -f $FILE ]]; then
@@ -32,7 +32,8 @@ while : ; do
   fi
 
   # Fetch the extractor mode (games|lines) from filename
-  MODE=$(echo $FILE | cut -f 1 -d'-')
+  filename=$(basename -- "$FILE")
+  MODE=$(echo $filename | cut -f 1 -d'-')
 
   # :Line only db merge
   if [[ "$MODE" == "lines" ]]; then
@@ -40,14 +41,14 @@ while : ; do
     logger -t extractor "DB merging :Lines from $FILE"
 
     # Extract games/lines in to workdir
-#    zcat $FILE | $BINDIR/extractor -A $APPDIR/args.lines -l $APPDIR/log.lines -o $APPDIR/err.lines
+    zcat $FILE | $BINDIR/extractor -A $APPDIR/args.lines -l $APPDIR/log.lines -o $APPDIR/err.lines
 
   else 
 
     logger -t extractor "DB merging :Games from $FILE"
 
     # Extract games/lines in to workdir
-#    zcat $FILE | $BINDIR/extractor -A $APPDIR/args.games -l $APPDIR/log.games -o $APPDIR/err.games
+    zcat $FILE | $BINDIR/extractor -A $APPDIR/args.games -l $APPDIR/log.games -o $APPDIR/err.games
 
   fi
 
