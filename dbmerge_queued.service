@@ -1,0 +1,12 @@
+[Unit]
+Description=Merges :Games/:Lines from gzip files in the dbqueued directory
+After=neo4j.service
+
+[Service]
+Type=forking
+ExecStart=/neo4j/scripts/dbmerge_queued.sh
+User=root
+TimeoutStartSec=0
+
+[Install]
+WantedBy=default.target

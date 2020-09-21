@@ -1,0 +1,12 @@
+[Unit]
+Description=Moves copied gzip files from incoming into DB queued directory
+After=httpd.service
+
+[Service]
+Type=forking
+ExecStart=/neo4j/scripts/move_incoming.sh
+User=root
+TimeoutStartSec=0
+
+[Install]
+WantedBy=default.target
